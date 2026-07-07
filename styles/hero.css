@@ -1,0 +1,107 @@
+.hero {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--color-background);
+}
+
+.hero__background {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, #000000 48%, transparent) 45%,
+    color-mix(in srgb, #000000 18%, transparent) 100%
+  );
+}
+
+.hero__container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  width: min(100%, 72rem);
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.hero__content {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 42rem;
+  color: #ffffff;
+}
+
+.hero__eyebrow {
+  width: fit-content;
+  margin: 0;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999rem;
+  background: var(--color-soft-tertiary);
+  color: var(--color-soft-background);
+  font-size: 0.85rem;
+  font-weight: 700;
+  backdrop-filter: blur(0.75rem);
+}
+
+.hero__title {
+  margin: 0;
+  max-width: 12ch;
+  font-size: 4rem;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  text-align: center;
+}
+
+.hero__subtitle {
+  margin: 0;
+  color: var(--color-background);
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+.hero__button {
+  min-height: 3.25rem;
+}
+
+.hero__button-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.hero__details {
+  margin: 0;
+  color: color-mix(in srgb, #ffffff 72%, transparent);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+@media (min-width: 48rem) {
+  .hero__container {
+    padding-inline: 2rem;
+  }
+
+  .hero__content {
+    gap: 1.5rem;
+  }
+}

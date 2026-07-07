@@ -1,26 +1,87 @@
-@import "tailwindcss";
+@import "../styles/button.css";
+@import "../styles/header.css";
+@import "../styles/hero.css";
+@import "../styles/training-section.css";
+@import "../styles/dynamic-section.css";
+@import "../styles/schedule-section.css";
+@import "../styles/final-cta.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand colors */
+  --color-primary: #1f69cd;
+  --color-secondary: #e1ffd8;
+  --color-tertiary: #ff6634;
+  --color-quaternary: #006281;
+
+  /* RGB helpers */
+  --color-primary-rgb: 29 63 109;
+  --color-secondary-rgb: 225 255 216;
+  --color-tertiary-rgb: 255 102 52;
+  --color-quaternary-rgb: 0 98 129;
+
+  /* Semantic colors */
+  --color-background: #ffffff;
+  --color-surface: #f8faf9;
+  --color-text: var(--color-primary);
+  --color-text-soft: rgb(var(--color-primary-rgb) / 100);
+  --color-soft-tertiary: rgb(var(--color-tertiary-rgb) / 0.2);
+  --color-border: rgb(var(--color-primary-rgb) / 0.12);
+
+  /* Typography */
+  --font-display: "Archivo Black", system-ui, sans-serif;
+  --font-body: "Nunito Sans", system-ui, sans-serif;
+
+  /* UI */
+  --color-focus: var(--color-tertiary);
+
+  --color-button-primary-bg: var(--color-quaternary);
+  --color-button-primary-text: #ffffff;
+
+  --color-button-secondary-bg: var(--color-secondary);
+  --color-button-secondary-text: var(--color-primary);
+
+  --color-button-tertiary-bg: var(--color-tertiary);
+  --color-button-tertiary-text: #ffffff;
+
+  /* Layout */
+  --container-max-width: 80rem;
+  --container-padding-mobile: 1rem;
+  --container-padding-desktop: 2rem;
+
+  /* Radius */
+  --radius-pill: 999rem;
+  --radius-card: 1.5rem;
+
+  /* Shadows */
+  --shadow-soft: 0 1rem 3rem rgb(var(--color-primary-rgb) / 0.08);
+
+  /* Transitions */
+  --transition-base: 180ms ease;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+main {
+  min-height: 100vh;
 }

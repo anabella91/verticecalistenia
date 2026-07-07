@@ -1,0 +1,117 @@
+.dynamic-section {
+  background: var(--color-quaternary);
+  color: #ffffff;
+}
+
+.dynamic-section__container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 4rem var(--container-padding-mobile);
+}
+
+.dynamic-section__header {
+  max-width: 48rem;
+  margin: 0 auto 2rem;
+  text-align: center;
+}
+
+.dynamic-section__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 10vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  color: var(--color-secondary);
+}
+
+.dynamic-section__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.dynamic-section__item {
+  padding: 1.25rem;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.dynamic-section__item-header {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.dynamic-section__icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+  border-radius: 1rem;
+  background: var(--color-soft-tertiary);
+  color: var(--color-tertiary);
+}
+
+.dynamic-section__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke-width: 2.25;
+}
+
+.dynamic-section__item-title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-quaternary);
+}
+
+.dynamic-section__item-description {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--color-quaternary);
+}
+
+@media (min-width: 48rem) {
+  .dynamic-section__container {
+    padding: 6rem var(--container-padding-desktop);
+  }
+
+  .dynamic-section__header {
+    margin-bottom: 2.5rem;
+  }
+
+  .dynamic-section__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .dynamic-section__item {
+    padding: 1.5rem;
+  }
+
+  .dynamic-section__item-title {
+    font-size: 1.125rem;
+  }
+
+  .dynamic-section__item-description {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .dynamic-section__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dynamic-section__item {
+    min-height: 12rem;
+  }
+}

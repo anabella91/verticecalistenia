@@ -1,0 +1,45 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 2.5rem;
+  padding: 1rem;
+  border: 0.0625rem solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Primary */
+.button--primary {
+  background: var(--color-button-primary-bg);
+  color: var(--color-button-primary-text);
+  box-shadow: 0 0.75rem 1.75rem rgb(var(--color-quaternary-rgb) / 0.18);
+}
+
+/* Secondary */
+.button--secondary {
+  background: var(--color-button-secondary-bg);
+  color: var(--color-button-secondary-text);
+  border-color: rgb(var(--color-quaternary-rgb) / 0.12);
+}
+
+/* Tertiary */
+.button--tertiary {
+  background: var(--color-button-tertiary-bg);
+  color: var(--color-button-tertiary-text);
+  box-shadow: 0 0.75rem 1.75rem rgb(var(--color-quaternary-rgb) / 0.22);
+}
+
+@media (min-width: 48rem) {
+  .button {
+    min-height: 2.75rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+}

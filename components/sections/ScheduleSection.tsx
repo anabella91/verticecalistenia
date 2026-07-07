@@ -1,0 +1,291 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, Clock3, MapPin } from "lucide-react";
+import Button from "../ui/Button";
+
+const locations = [
+  {
+    id: "recoleta",
+    name: "Recoleta",
+    area: "CABA",
+    mapUrl: "https://maps.app.goo.gl/DXEcZV9RE3mtUmKe7",
+    schedule: [
+      {
+        day: "Lunes",
+        time: "8:00 - 10:00",
+      },
+      {
+        day: "Miércoles",
+        time: "18:00 - 20:00",
+      },
+      {
+        day: "Viernes",
+        time: "8:00 - 10:00",
+      },
+      {
+        day: "Sábado",
+        time: "9:00 - 11:00",
+      },
+    ],
+  },
+  {
+    id: "chacarita",
+    name: "Chacarita",
+    area: "CABA",
+    mapUrl: "https://maps.app.goo.gl/YFif746urg8FEgaL7",
+    schedule: [
+      {
+        day: "Martes",
+        time: "14:00 - 16:00",
+      },
+      {
+        day: "Jueves",
+        time: "8:00 - 9:00",
+      },
+      {
+        day: "Sábado",
+        time: "14:00 - 16:00",
+      },
+    ],
+  },
+];
+
+const dayToIndex: Record<string, number> = {
+  Domingo: 0,
+  Lunes: 1,
+  Martes: 2,
+  Miércoles: 3,
+  Jueves: 4,
+  Viernes: 5,
+  Sábado: 6,
+};
+
+type ScheduleItem = {
+  day: string;
+  time: string;
+};
+
+type Location = {
+  id: string;
+  name: string;
+  area: string;
+  mapUrl: string;
+  schedule: ScheduleItem[];
+};
+
+type UpcomingClass = {
+  locationName: string;
+  area: string;
+  mapUrl: string;
+  day: string;
+  time: string;
+  startsAt: Date;
+};
+
+function getStartTime(time: string) {
+  const [startTime] = time.split(" - ");
+  const [hours, minutes] = startTime.split(":").map(Number);
+
+  return {
+    hours,
+    minutes,
+  };
+}
+
+function getNextClassDate(day: string, time: string, now: Date) {
+  const targetDayIndex = dayToIndex[day];
+  const currentDayIndex = now.getDay();
+
+  const { hours, minutes } = getStartTime(time);
+
+  let daysUntilClass = targetDayIndex - currentDayIndex;
+
+  if (daysUntilClass < 0) {
+    daysUntilClass += 7;
+  }
+
+  const classDate = new Date(now);
+
+  classDate.setDate(now.getDate() + daysUntilClass);
+  classDate.setHours(hours, minutes, 0, 0);
+
+  if (classDate <= now) {
+    classDate.setDate(classDate.getDate() + 7);
+  }
+
+  return classDate;
+}
+
+function getUpcomingClass(locations: Location[], now: Date) {
+  const upcomingClasses: UpcomingClass[] = locations.flatMap((location) =>
+    location.schedule.map((item) => ({
+      locationName: location.name,
+      area: location.area,
+      mapUrl: location.mapUrl,
+      day: item.day,
+      time: item.time,
+      startsAt: getNextClassDate(item.day, item.time, now),
+    })),
+  );
+
+  return upcomingClasses.sort(
+    (a, b) => a.startsAt.getTime() - b.startsAt.getTime(),
+  )[0];
+}
+
+function formatTimeUntil(date: Date, now: Date) {
+  const diffInMinutes = Math.ceil((date.getTime() - now.getTime()) / 1000 / 60);
+
+  if (diffInMinutes <= 0) {
+    return "Ahora";
+  }
+
+  if (diffInMinutes < 60) {
+    return `En ${diffInMinutes} min`;
+  }
+
+  const diffInHours = Math.floor(diffInMinutes / 60);
+
+  if (diffInHours < 24) {
+    return `En ${diffInHours} h`;
+  }
+
+  const diffInDays = Math.floor(diffInHours / 24);
+
+  if (diffInDays === 1) {
+    return "Mañana";
+  }
+
+  return `En ${diffInDays} días`;
+}
+
+function NextClassCard() {
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setNow(new Date());
+    }, 60000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const nextClass = useMemo(() => {
+    return getUpcomingClass(locations, now);
+  }, [now]);
+
+  const timeUntil = formatTimeUntil(nextClass.startsAt, now);
+
+  return (
+    <article className="schedule-section__next-card">
+      <div className="schedule-section__next-header">
+        <div className="schedule-section__next-icon-wrapper">
+          <Clock3 className="schedule-section__next-icon" aria-hidden="true" />
+        </div>
+
+        <p className="schedule-section__next-label">Próxima clase</p>
+      </div>
+
+      <div className="schedule-section__next-content">
+        <p className="schedule-section__next-time">{timeUntil}</p>
+
+        <div className="schedule-section__next-location">
+          <MapPin
+            className="schedule-section__next-location-icon"
+            aria-hidden="true"
+          />
+
+          <p>
+            {nextClass.locationName}, {nextClass.area}
+          </p>
+        </div>
+
+        <p className="schedule-section__next-schedule">
+          {nextClass.day} · {nextClass.time}
+        </p>
+      </div>
+
+      <Button
+        className="schedule-section__next-button"
+        href={nextClass.mapUrl}
+        aria-label={`Cómo llegar a la sede ${nextClass.locationName}`}
+      >
+        Ir a la clase
+        <ArrowRight
+          className="schedule-section__button-icon"
+          aria-hidden="true"
+        />
+      </Button>
+    </article>
+  );
+}
+
+export default function ScheduleSection() {
+  return (
+    <section className="schedule-section" id="horarios">
+      <div className="schedule-section__container">
+        <div className="schedule-section__header">
+          <p className="schedule-section__eyebrow">
+            Elegí la sede que mejor se adapte a tu rutina
+          </p>
+
+          <h2 className="schedule-section__title">Ubicación y horarios</h2>
+        </div>
+
+        <NextClassCard />
+
+        <div className="schedule-section__grid">
+          {locations.map((location) => (
+            <article className="schedule-section__card" key={location.id}>
+              <div className="schedule-section__card-header">
+                <div>
+                  <p className="schedule-section__location-label">Sede</p>
+
+                  <h3 className="schedule-section__location-name">
+                    {location.name}
+                  </h3>
+
+                  <p className="schedule-section__location-area">
+                    {location.area}
+                  </p>
+                </div>
+
+                <div className="schedule-section__location-icon-wrapper">
+                  <MapPin
+                    className="schedule-section__location-icon"
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+
+              <div className="schedule-section__list">
+                {location.schedule.map((item) => (
+                  <div
+                    className="schedule-section__row"
+                    key={`${location.id}-${item.day}`}
+                  >
+                    <p className="schedule-section__day">{item.day}</p>
+                    <p className="schedule-section__time">{item.time}</p>
+                  </div>
+                ))}
+              </div>
+
+              <Button
+                className="schedule-section__button"
+                href={location.mapUrl}
+                aria-label={`Cómo llegar a la sede ${location.name}`}
+              >
+                Cómo llegar
+                <ArrowRight
+                  className="schedule-section__button-icon"
+                  aria-hidden="true"
+                />
+              </Button>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

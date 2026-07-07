@@ -1,0 +1,121 @@
+.training-section {
+  background: var(--color-secondary);
+}
+
+.training-section__container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 4rem var(--container-padding-mobile);
+}
+
+.training-section__header {
+  max-width: 42rem;
+  margin: 0 auto 2rem;
+  text-align: center;
+}
+
+.training-section__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 10vw, 4.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+  color: var(--color-primary);
+}
+
+.training-section__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.training-section__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5rem;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.training-section__card-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.training-section__icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  background: var(--color-soft-tertiary);
+  color: var(--color-tertiary);
+}
+
+.training-section__icon {
+  width: 1.35rem;
+  height: 1.35rem;
+  stroke-width: 2.25;
+}
+
+.training-section__card-title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-quaternary);
+}
+
+.training-section__card-description {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--color-text-soft);
+}
+
+/* Desktop */
+@media (min-width: 48rem) {
+  .training-section__container {
+    padding: 6rem var(--container-padding-desktop);
+  }
+
+  .training-section__header {
+    margin-bottom: 3rem;
+  }
+
+  .training-section__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .training-section__card {
+    min-height: 18rem;
+    padding: 2rem;
+  }
+
+  .training-section__icon-wrapper {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .training-section__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .training-section__card-title {
+    font-size: 1.25rem;
+  }
+
+  .training-section__card-description {
+    font-size: 1.0625rem;
+  }
+}
