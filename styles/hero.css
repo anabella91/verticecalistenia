@@ -28,7 +28,6 @@
   z-index: 2;
   display: flex;
   align-items: center;
-  width: min(100%, 72rem);
   min-height: 100svh;
   margin: 0 auto;
   padding: 1rem;
@@ -91,14 +90,17 @@
 
 .hero__details {
   margin: 0;
-  color: color-mix(in srgb, #ffffff 72%, transparent);
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-align: center;
 }
 
 @media (min-width: 48rem) {
-  .hero__container {
-    padding-inline: 2rem;
+  .hero__title {
+    font-size: 6rem;
+  }
+
+  .hero__details {
+    font-size: 1.2rem;
   }
 
   .hero__content {
