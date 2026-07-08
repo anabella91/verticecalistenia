@@ -88,8 +88,9 @@
   }
 
   .training-section__header {
-    margin-bottom: 3rem;
+    margin: 0;
     text-align: left;
+    max-width: 100%;
   }
 
   .training-section__grid {
