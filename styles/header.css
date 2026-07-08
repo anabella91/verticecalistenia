@@ -35,6 +35,7 @@
 .header__button {
   background: var(--color-secondary);
   color: var(--color-quaternary);
+  font-weight: 800;
 }
 
 @media (min-width: 48rem) {
