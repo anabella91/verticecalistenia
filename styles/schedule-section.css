@@ -228,6 +228,7 @@
   background: var(--color-quaternary);
   font-size: 1rem;
   text-decoration: none;
+  align-self: end;
 }
 
 .schedule-section__button-icon {
@@ -247,6 +248,11 @@
 
   .schedule-section__next-card {
     margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    width: 22rem;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
   }
 
   .schedule-section__next-header,
