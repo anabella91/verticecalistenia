@@ -32,7 +32,7 @@
   border-radius: 0.5rem;
 }
 
-.header__buton {
+.header__button {
   background: var(--color-secondary);
   color: var(--color-quaternary);
 }
