@@ -84,11 +84,12 @@
 /* Desktop */
 @media (min-width: 48rem) {
   .training-section__container {
-    padding: 6rem var(--container-padding-desktop);
+    padding: 10rem var(--container-padding-desktop);
   }
 
   .training-section__header {
     margin-bottom: 3rem;
+    text-align: left;
   }
 
   .training-section__grid {
