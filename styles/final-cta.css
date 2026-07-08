@@ -2,11 +2,6 @@
   background: var(--color-background);
 }
 
-.final-cta__container {
-  width: min(100%, 72rem);
-  margin: 0 auto;
-}
-
 .final-cta__content {
   display: grid;
   gap: 1rem;
@@ -96,7 +91,6 @@
   }
 
   .final-cta__actions {
-    flex-direction: row;
     align-items: center;
     width: auto;
   }

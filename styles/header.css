@@ -9,7 +9,6 @@
 .header__container {
   background: var(--color-tertiary);
   width: 100%;
-  max-width: var(--container-max-width);
   margin: 0 auto;
   padding: 0.875rem var(--container-padding-mobile);
   display: flex;
