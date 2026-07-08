@@ -86,10 +86,6 @@
 }
 
 @media (min-width: 48rem) {
-  .final-cta {
-    padding: 2rem;
-  }
-
   .final-cta__actions {
     align-items: center;
     width: auto;
