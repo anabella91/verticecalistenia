@@ -32,6 +32,11 @@
   border-radius: 0.5rem;
 }
 
+.header__buton {
+  background: var(--color-secondary);
+  color: var(--color-quaternary);
+}
+
 @media (min-width: 48rem) {
   .header__container {
     padding: 1rem var(--container-padding-desktop);

@@ -57,6 +57,8 @@
 
 .final-cta__button {
   width: 100%;
+  background: var(--color-secondary);
+  color: var(--color-quaternary);
 }
 
 .final-cta__button-icon {
