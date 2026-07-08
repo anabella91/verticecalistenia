@@ -81,7 +81,7 @@
 
 @media (min-width: 48rem) {
   .dynamic-section__container {
-    padding: 6rem var(--container-padding-desktop);
+    padding: 10rem var(--container-padding-desktop);
   }
 
   .dynamic-section__header {
