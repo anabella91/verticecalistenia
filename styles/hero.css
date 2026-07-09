@@ -26,17 +26,17 @@
 .hero__container {
   position: relative;
   z-index: 2;
-  display: flex;
+  display: grid;
   align-items: center;
   min-height: 100svh;
   margin: 0 auto;
   padding: 1rem;
+  justify-content: center;
 }
 
 .hero__content {
   display: grid;
   gap: 1.25rem;
-  max-width: 42rem;
   color: #ffffff;
 }
 
@@ -45,16 +45,16 @@
   margin: 0;
   padding: 0.45rem 0.8rem;
   border-radius: 999rem;
-  background: var(--color-soft-tertiary);
-  color: var(--color-soft-background);
+  background: var(--color-primary);
+  color: var(--color-background);
   font-size: 0.85rem;
   font-weight: 700;
   backdrop-filter: blur(0.75rem);
+  align-self: flex-end;
 }
 
 .hero__title {
   margin: 0;
-  max-width: 12ch;
   font-size: 4rem;
   line-height: 0.9;
   letter-spacing: -0.06em;
@@ -81,6 +81,7 @@
 
 .hero__button {
   min-height: 3.25rem;
+  background: var(--color-primary);
 }
 
 .hero__button-icon {
@@ -105,5 +106,9 @@
 
   .hero__content {
     gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }

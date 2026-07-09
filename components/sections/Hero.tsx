@@ -25,9 +25,8 @@ export default function Hero() {
       <div className="hero__overlay" />
 
       <div className="hero__container">
+        <p className="hero__eyebrow">Clases de calistenia</p>
         <div className="hero__content">
-          <p className="hero__eyebrow">Clases de calistenia</p>
-
           <h1 className="hero__title">Ganá fuerza, movilidad y control</h1>
 
           <h2 className="hero__subtitle">
