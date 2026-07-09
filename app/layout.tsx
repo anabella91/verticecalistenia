@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo_Black, Nunito_Sans } from "next/font/google";
 import Header from "@/components/layout/Header";
 import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const archivoBlack = Archivo_Black({
   weight: "400",
@@ -31,6 +32,7 @@ export default function RootLayout({
         <Header />
         {children}
       </body>
+      <GoogleAnalytics gaId="G-DF9KFECJ2P" />
     </html>
   );
 }
