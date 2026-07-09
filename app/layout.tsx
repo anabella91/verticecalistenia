@@ -15,9 +15,9 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Vértice | Clases de calistenia",
+  title: "Vértice Calistenia",
   description:
-    "Clases de calistenia para ganar fuerza, movilidad y control con entrenamientos adaptados a tu nivel.",
+    "Clases de calistenia para ganar fuerza, movilidad y control con entrenamientos adaptados a tu nivel",
 };
 
 export default function RootLayout({
