@@ -1,8 +1,12 @@
+"use client";
+
+import { sendGAEvent } from "@next/third-parties/google";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 
 const WHATSAPP_NUMBER = "5491141761329";
+
 const WHATSAPP_MESSAGE =
   "Hola, quiero reservar una clase de prueba gratis para entrenar calistenia";
 
@@ -11,6 +15,14 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 )}`;
 
 export default function Header() {
+  const handleWhatsAppClick = () => {
+    sendGAEvent("event", "click_whatsapp", {
+      button_location: "header",
+      button_text: "Clase de prueba gratis",
+      destination: "whatsapp",
+    });
+  };
+
   return (
     <header className="header">
       <div className="header__container">
@@ -24,7 +36,18 @@ export default function Header() {
             className="header__logo"
           />
         </Link>
-        <Button href={WHATSAPP_URL} className="header__button">
+        <Button
+          href={WHATSAPP_URL}
+          className="header__button"
+          target="_blank"
+          onClick={() =>
+            sendGAEvent("event", "click_whatsapp", {
+              button_location: "header",
+              button_text: "Clase de prueba gratis",
+              destination: "whatsapp",
+            })
+          }
+        >
           Clase de prueba gratis
         </Button>
       </div>
