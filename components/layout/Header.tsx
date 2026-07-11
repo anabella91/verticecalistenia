@@ -15,14 +15,6 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 )}`;
 
 export default function Header() {
-  const handleWhatsAppClick = () => {
-    sendGAEvent("event", "click_whatsapp", {
-      button_location: "header",
-      button_text: "Clase de prueba gratis",
-      destination: "whatsapp",
-    });
-  };
-
   return (
     <header className="header">
       <div className="header__container">

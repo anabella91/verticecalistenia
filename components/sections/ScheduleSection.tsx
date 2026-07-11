@@ -1,10 +1,36 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { sendGAEvent } from "@next/third-parties/google";
 import { ArrowRight, Clock3, MapPin } from "lucide-react";
 import Button from "../ui/Button";
 
-const locations = [
+type ScheduleItem = {
+  day: string;
+  time: string;
+};
+
+type Location = {
+  id: string;
+  name: string;
+  area: string;
+  mapUrl: string;
+  schedule: ScheduleItem[];
+};
+
+type UpcomingClass = {
+  locationId: string;
+  locationName: string;
+  area: string;
+  mapUrl: string;
+  day: string;
+  time: string;
+  startsAt: Date;
+};
+
+type MapButtonLocation = "next_class_card" | "location_card";
+
+const locations: Location[] = [
   {
     id: "recoleta",
     name: "Recoleta",
@@ -61,27 +87,25 @@ const dayToIndex: Record<string, number> = {
   Sábado: 6,
 };
 
-type ScheduleItem = {
-  day: string;
-  time: string;
-};
-
-type Location = {
-  id: string;
-  name: string;
-  area: string;
-  mapUrl: string;
-  schedule: ScheduleItem[];
-};
-
-type UpcomingClass = {
+function trackMapClick({
+  locationId,
+  locationName,
+  buttonLocation,
+  buttonText,
+}: {
+  locationId: string;
   locationName: string;
-  area: string;
-  mapUrl: string;
-  day: string;
-  time: string;
-  startsAt: Date;
-};
+  buttonLocation: MapButtonLocation;
+  buttonText: string;
+}) {
+  sendGAEvent("event", "click_map", {
+    location_id: locationId,
+    location_name: locationName,
+    button_location: buttonLocation,
+    button_text: buttonText,
+    destination: "google_maps",
+  });
+}
 
 function getStartTime(time: string) {
   const [startTime] = time.split(" - ");
@@ -117,9 +141,10 @@ function getNextClassDate(day: string, time: string, now: Date) {
   return classDate;
 }
 
-function getUpcomingClass(locations: Location[], now: Date) {
-  const upcomingClasses: UpcomingClass[] = locations.flatMap((location) =>
+function getUpcomingClass(locationsList: Location[], now: Date) {
+  const upcomingClasses: UpcomingClass[] = locationsList.flatMap((location) =>
     location.schedule.map((item) => ({
+      locationId: location.id,
       locationName: location.name,
       area: location.area,
       mapUrl: location.mapUrl,
@@ -177,6 +202,15 @@ function NextClassCard() {
 
   const timeUntil = formatTimeUntil(nextClass.startsAt, now);
 
+  const handleMapClick = () => {
+    trackMapClick({
+      locationId: nextClass.locationId,
+      locationName: nextClass.locationName,
+      buttonLocation: "next_class_card",
+      buttonText: "Ir a la clase",
+    });
+  };
+
   return (
     <article className="schedule-section__next-card">
       <div className="schedule-section__next-header">
@@ -209,7 +243,9 @@ function NextClassCard() {
       <Button
         className="schedule-section__next-button"
         href={nextClass.mapUrl}
-        aria-label={`Cómo llegar a la sede ${nextClass.locationName}`}
+        ariaLabel={`Cómo llegar a la sede ${nextClass.locationName}`}
+        target="_blank"
+        onClick={handleMapClick}
       >
         Ir a la clase
         <ArrowRight
@@ -236,54 +272,68 @@ export default function ScheduleSection() {
         <NextClassCard />
 
         <div className="schedule-section__grid">
-          {locations.map((location) => (
-            <article className="schedule-section__card" key={location.id}>
-              <div className="schedule-section__card-header">
-                <div>
-                  <p className="schedule-section__location-label">Sede</p>
+          {locations.map((location) => {
+            const handleMapClick = () => {
+              trackMapClick({
+                locationId: location.id,
+                locationName: location.name,
+                buttonLocation: "location_card",
+                buttonText: "Cómo llegar",
+              });
+            };
 
-                  <h3 className="schedule-section__location-name">
-                    {location.name}
-                  </h3>
+            return (
+              <article className="schedule-section__card" key={location.id}>
+                <div className="schedule-section__card-header">
+                  <div>
+                    <p className="schedule-section__location-label">Sede</p>
 
-                  <p className="schedule-section__location-area">
-                    {location.area}
-                  </p>
+                    <h3 className="schedule-section__location-name">
+                      {location.name}
+                    </h3>
+
+                    <p className="schedule-section__location-area">
+                      {location.area}
+                    </p>
+                  </div>
+
+                  <div className="schedule-section__location-icon-wrapper">
+                    <MapPin
+                      className="schedule-section__location-icon"
+                      aria-hidden="true"
+                    />
+                  </div>
                 </div>
 
-                <div className="schedule-section__location-icon-wrapper">
-                  <MapPin
-                    className="schedule-section__location-icon"
+                <div className="schedule-section__list">
+                  {location.schedule.map((item) => (
+                    <div
+                      className="schedule-section__row"
+                      key={`${location.id}-${item.day}`}
+                    >
+                      <p className="schedule-section__day">{item.day}</p>
+
+                      <p className="schedule-section__time">{item.time}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <Button
+                  className="schedule-section__button"
+                  href={location.mapUrl}
+                  ariaLabel={`Cómo llegar a la sede ${location.name}`}
+                  target="_blank"
+                  onClick={handleMapClick}
+                >
+                  Cómo llegar
+                  <ArrowRight
+                    className="schedule-section__button-icon"
                     aria-hidden="true"
                   />
-                </div>
-              </div>
-
-              <div className="schedule-section__list">
-                {location.schedule.map((item) => (
-                  <div
-                    className="schedule-section__row"
-                    key={`${location.id}-${item.day}`}
-                  >
-                    <p className="schedule-section__day">{item.day}</p>
-                    <p className="schedule-section__time">{item.time}</p>
-                  </div>
-                ))}
-              </div>
-
-              <Button
-                className="schedule-section__button"
-                href={location.mapUrl}
-                aria-label={`Cómo llegar a la sede ${location.name}`}
-              >
-                Cómo llegar
-                <ArrowRight
-                  className="schedule-section__button-icon"
-                  aria-hidden="true"
-                />
-              </Button>
-            </article>
-          ))}
+                </Button>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

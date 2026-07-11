@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { sendGAEvent } from "@next/third-parties/google";
 
 const WHATSAPP_NUMBER = "5491141761329";
 const WHATSAPP_MESSAGE = "Hola, quiero reservar una clase de prueba gratis";
@@ -34,7 +37,18 @@ export default function Hero() {
           </h2>
 
           <div className="hero__actions">
-            <Button href={WHATSAPP_URL} className="hero__button">
+            <Button
+              href={WHATSAPP_URL}
+              target="_blank"
+              onClick={() =>
+                sendGAEvent("event", "click_whatsapp", {
+                  button_location: "header",
+                  button_text: "Clase de prueba gratis",
+                  destination: "whatsapp",
+                })
+              }
+              className="hero__button"
+            >
               Reservar clase de prueba gratis
               <ArrowRight className="hero__button-icon" aria-hidden="true" />
             </Button>

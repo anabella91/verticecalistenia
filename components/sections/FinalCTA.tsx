@@ -1,3 +1,6 @@
+"use client";
+
+import { sendGAEvent } from "@next/third-parties/google";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
 
@@ -44,7 +47,18 @@ export default function FinalCTA() {
           <p className="final-cta__subtitle">Compartí el camino</p>
 
           <div className="final-cta__actions">
-            <Button href={WHATSAPP_URL} className="final-cta__button">
+            <Button
+              href={WHATSAPP_URL}
+              target="_blank"
+              onClick={() =>
+                sendGAEvent("event", "click_whatsapp", {
+                  button_location: "header",
+                  button_text: "Clase de prueba gratis",
+                  destination: "whatsapp",
+                })
+              }
+              className="final-cta__button"
+            >
               Reservá clase de prueba gratis
               <ArrowRight
                 className="final-cta__button-icon"
