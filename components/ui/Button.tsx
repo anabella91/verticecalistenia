@@ -33,7 +33,7 @@ export default function Button({
     href.startsWith("mailto:") ||
     href.startsWith("tel:");
 
-  const safeRel = target === "_blank" ? (rel ?? "noopener noreferrer") : rel;
+  const safeRel = target === "_blank" ? clsx("noopener noreferrer", rel) : rel;
 
   if (isExternal) {
     return (

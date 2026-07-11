@@ -3,6 +3,7 @@
 import { sendGAEvent } from "@next/third-parties/google";
 import { ArrowRight } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { trackMetaEvent } from "@/lib/metaPixel";
 
 const INSTAGRAM_USERNAME = "verticecalistenia";
 const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_USERNAME}/`;
@@ -31,13 +32,31 @@ function InstagramIcon({ className }: { className?: string }) {
         stroke="currentColor"
         strokeWidth="2"
       />
+
       <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+
       <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" />
     </svg>
   );
 }
 
 export default function FinalCTA() {
+  const handleWhatsAppClick = () => {
+    // Google Analytics
+    sendGAEvent("event", "click_whatsapp", {
+      button_location: "final_cta",
+      button_text: "Reservá clase de prueba gratis",
+      destination: "whatsapp",
+    });
+
+    // Meta Pixel
+    trackMetaEvent("Contact", {
+      content_name: "Reserva de clase de prueba",
+      content_category: "whatsapp",
+      button_location: "final_cta",
+    });
+  };
+
   return (
     <section className="final-cta" id="contacto">
       <div className="final-cta__container">
@@ -50,14 +69,9 @@ export default function FinalCTA() {
             <Button
               href={WHATSAPP_URL}
               target="_blank"
-              onClick={() =>
-                sendGAEvent("event", "click_whatsapp", {
-                  button_location: "header",
-                  button_text: "Clase de prueba gratis",
-                  destination: "whatsapp",
-                })
-              }
+              onClick={handleWhatsAppClick}
               className="final-cta__button"
+              ariaLabel="Reservar una clase de prueba gratis por WhatsApp"
             >
               Reservá clase de prueba gratis
               <ArrowRight
@@ -70,11 +84,12 @@ export default function FinalCTA() {
               className="final-cta__instagram"
               href={INSTAGRAM_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               aria-label={`Ver Instagram de ${INSTAGRAM_USERNAME}`}
             >
-              <InstagramIcon className="final-cta__instagram-icon" />@
-              {INSTAGRAM_USERNAME}
+              <InstagramIcon className="final-cta__instagram-icon" />
+
+              <span>@{INSTAGRAM_USERNAME}</span>
             </a>
           </div>
         </div>

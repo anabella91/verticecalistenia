@@ -3,6 +3,7 @@ import { Archivo_Black, Nunito_Sans } from "next/font/google";
 import Header from "@/components/layout/Header";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import MetaPixel from "@/components/MetaPixel";
 
 const archivoBlack = Archivo_Black({
   weight: "400",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className={`${archivoBlack.variable} ${nunitoSans.variable}`}>
         <Header />
         {children}
+        <MetaPixel />
       </body>
       <GoogleAnalytics gaId="G-DF9KFECJ2P" />
     </html>

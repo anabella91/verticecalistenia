@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import Button from "@/components/ui/Button";
 import { sendGAEvent } from "@next/third-parties/google";
+import Button from "@/components/ui/Button";
+import { trackMetaEvent } from "@/lib/metaPixel";
 
 const WHATSAPP_NUMBER = "5491141761329";
 const WHATSAPP_MESSAGE = "Hola, quiero reservar una clase de prueba gratis";
@@ -13,6 +14,20 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
 )}`;
 
 export default function Hero() {
+  const handleWhatsAppClick = () => {
+    sendGAEvent("event", "click_whatsapp", {
+      button_location: "hero",
+      button_text: "Reservar clase de prueba gratis",
+      destination: "whatsapp",
+    });
+
+    trackMetaEvent("Contact", {
+      content_name: "Reserva de clase de prueba",
+      content_category: "whatsapp",
+      button_location: "hero",
+    });
+  };
+
   return (
     <section className="hero">
       <Image
@@ -29,6 +44,7 @@ export default function Hero() {
 
       <div className="hero__container">
         <p className="hero__eyebrow">Clases de calistenia</p>
+
         <div className="hero__content">
           <h1 className="hero__title">Ganá fuerza, movilidad y control</h1>
 
@@ -40,14 +56,9 @@ export default function Hero() {
             <Button
               href={WHATSAPP_URL}
               target="_blank"
-              onClick={() =>
-                sendGAEvent("event", "click_whatsapp", {
-                  button_location: "header",
-                  button_text: "Clase de prueba gratis",
-                  destination: "whatsapp",
-                })
-              }
+              onClick={handleWhatsAppClick}
               className="hero__button"
+              ariaLabel="Reservar una clase de prueba gratis por WhatsApp"
             >
               Reservar clase de prueba gratis
               <ArrowRight className="hero__button-icon" aria-hidden="true" />
