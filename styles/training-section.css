@@ -84,7 +84,7 @@
 /* Desktop */
 @media (min-width: 48rem) {
   .training-section__container {
-    padding: 10rem var(--container-padding-desktop);
+    padding: 0 var(--container-padding-desktop) 5rem;
   }
 
   .training-section__header {

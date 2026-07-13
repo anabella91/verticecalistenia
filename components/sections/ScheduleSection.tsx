@@ -39,19 +39,19 @@ const locations: Location[] = [
     schedule: [
       {
         day: "Lunes",
-        time: "17:00 - 19:00 / 18:00 - 20:00",
+        time: "17:00 - 20:00",
       },
       {
         day: "Martes",
-        time: "8:00 - 10:00 / 9:00 - 11:00",
+        time: "8:00 - 11:00",
       },
       {
         day: "Miércoles",
-        time: "17:00 - 19:00 / 18:00 - 20:00",
+        time: "17:00 - 20:00",
       },
       {
         day: "Viernes",
-        time: "17:00 - 19:00 / 18:00 - 20:00",
+        time: "17:00 - 20:00",
       },
       {
         day: "Sábado",
@@ -71,7 +71,7 @@ const locations: Location[] = [
       },
       {
         day: "Jueves",
-        time: "8:00 - 10:00 / 9:00 - 11:00",
+        time: "8:00 - 11:00",
       },
       {
         day: "Sábado",
@@ -177,7 +177,7 @@ function formatTimeUntil(date: Date, now: Date) {
   const diffInHours = Math.floor(diffInMinutes / 60);
 
   if (diffInHours < 24) {
-    return `En ${diffInHours} h`;
+    return `En ${diffInHours} hs`;
   }
 
   const diffInDays = Math.floor(diffInHours / 24);
@@ -267,7 +267,7 @@ export default function ScheduleSection() {
       <div className="schedule-section__container">
         <div className="schedule-section__header">
           <p className="schedule-section__eyebrow">
-            Elegí la sede que mejor se adapte a tu rutina
+            Cada clase tiene una duración de 2 horas
           </p>
 
           <h2 className="schedule-section__title">Ubicación y horarios</h2>

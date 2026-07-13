@@ -59,11 +59,12 @@
   line-height: 0.9;
   letter-spacing: -0.06em;
   text-align: center;
+  color: var(--color-secondary);
 }
 
 .hero__subtitle {
   margin: 0;
-  color: var(--color-background);
+  color: var(--color-secondary);
   font-size: clamp(1.2rem, 3vw, 2rem);
   font-weight: 500;
   line-height: 1.2;
@@ -93,6 +94,7 @@
   margin: 0;
   font-size: 1rem;
   text-align: center;
+  color: var(--color-secondary);
 }
 
 @media (min-width: 48rem) {

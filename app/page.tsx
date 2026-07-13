@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <TrainingSection />
       <ScheduleSection />
+      <TrainingSection />
       <DynamicTrainingSection />
       <InstagramFeed username="verticecalistenia" limit={6} />
       <FinalCTA />

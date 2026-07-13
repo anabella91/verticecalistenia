@@ -66,7 +66,8 @@ export default function Hero() {
           </div>
 
           <p className="hero__details">
-            Sin experiencia previa • Todos los niveles • Grupos reducidos
+            Acompañamiento personalizado • Corrección técnica • Rutinas
+            adaptadas para vos
           </p>
         </div>
       </div>
