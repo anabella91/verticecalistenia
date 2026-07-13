@@ -39,19 +39,23 @@ const locations: Location[] = [
     schedule: [
       {
         day: "Lunes",
-        time: "8:00 - 10:00",
+        time: "17:00 - 19:00 / 18:00 - 20:00",
+      },
+      {
+        day: "Martes",
+        time: "8:00 - 10:00 / 9:00 - 11:00",
       },
       {
         day: "Miércoles",
-        time: "18:00 - 20:00",
+        time: "17:00 - 19:00 / 18:00 - 20:00",
       },
       {
         day: "Viernes",
-        time: "8:00 - 10:00",
+        time: "17:00 - 19:00 / 18:00 - 20:00",
       },
       {
         day: "Sábado",
-        time: "9:00 - 11:00",
+        time: "10:00 - 12:00",
       },
     ],
   },
@@ -67,7 +71,7 @@ const locations: Location[] = [
       },
       {
         day: "Jueves",
-        time: "8:00 - 9:00",
+        time: "8:00 - 10:00 / 9:00 - 11:00",
       },
       {
         day: "Sábado",

@@ -79,18 +79,20 @@ export default function FinalCTA() {
                 aria-hidden="true"
               />
             </Button>
+            <div className="footer_actions">
+              <a
+                className="final-cta__instagram"
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Ver Instagram de ${INSTAGRAM_USERNAME}`}
+              >
+                <InstagramIcon className="final-cta__instagram-icon" />
 
-            <a
-              className="final-cta__instagram"
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Ver Instagram de ${INSTAGRAM_USERNAME}`}
-            >
-              <InstagramIcon className="final-cta__instagram-icon" />
-
-              <span>@{INSTAGRAM_USERNAME}</span>
-            </a>
+                <span>@{INSTAGRAM_USERNAME}</span>
+              </a>
+              <span className="signature">Sitio creado por AnabellaDR</span>
+            </div>
           </div>
         </div>
       </div>
