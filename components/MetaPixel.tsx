@@ -4,16 +4,6 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 
-declare global {
-  interface Window {
-    fbq?: (
-      command: "track" | "trackCustom",
-      eventName: string,
-      parameters?: Record<string, unknown>,
-    ) => void;
-  }
-}
-
 export default function MetaPixel() {
   const pathname = usePathname();
   const isFirstPageView = useRef(true);
@@ -27,7 +17,7 @@ export default function MetaPixel() {
       return;
     }
 
-    // Registra navegaciones internas de Next.js.
+    // Registra las navegaciones internas de Next.js.
     window.fbq?.("track", "PageView");
   }, [pathname]);
 
