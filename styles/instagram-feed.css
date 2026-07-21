@@ -2,7 +2,7 @@
 
 .instagram-feed {
   padding: clamp(4rem, 8vw, 7rem) 1rem;
-  background: var(--color-primary);
+  background: #132238;
 }
 
 .instagram-feed__header {
