@@ -5,12 +5,36 @@ import { sendGAEvent } from "@next/third-parties/google";
 import { ArrowRight, Clock3, MapPin } from "lucide-react";
 import Button from "../ui/Button";
 
-type ScheduleItem = {
-  day: string;
-  time: string;
+type WeekDay =
+  | "Domingo"
+  | "Lunes"
+  | "Martes"
+  | "Miércoles"
+  | "Jueves"
+  | "Viernes"
+  | "Sábado";
+
+type ClassTime = {
+  hours: number;
+  minutes: number;
 };
 
-type Location = {
+type ScheduledItem = {
+  type: "scheduled";
+  day: WeekDay;
+  start: ClassTime;
+  end: ClassTime;
+};
+
+type FlexibleScheduleItem = {
+  type: "flexible";
+  day: WeekDay;
+  label: string;
+};
+
+type ScheduleItem = ScheduledItem | FlexibleScheduleItem;
+
+type TrainingLocation = {
   id: string;
   name: string;
   area: string;
@@ -23,14 +47,14 @@ type UpcomingClass = {
   locationName: string;
   area: string;
   mapUrl: string;
-  day: string;
+  day: WeekDay;
   time: string;
   startsAt: Date;
 };
 
 type MapButtonLocation = "next_class_card" | "location_card";
 
-const locations: Location[] = [
+const locations: TrainingLocation[] = [
   {
     id: "recoleta",
     name: "Recoleta",
@@ -38,24 +62,43 @@ const locations: Location[] = [
     mapUrl: "https://maps.app.goo.gl/DXEcZV9RE3mtUmKe7",
     schedule: [
       {
+        type: "flexible",
         day: "Lunes",
-        time: "A convenir por la tarde",
+        label: "A convenir por la tarde",
       },
       {
+        type: "scheduled",
         day: "Martes",
-        time: "8:00 - 11:00",
+        start: {
+          hours: 8,
+          minutes: 0,
+        },
+        end: {
+          hours: 11,
+          minutes: 0,
+        },
       },
       {
+        type: "flexible",
         day: "Miércoles",
-        time: "A convenir por la tarde",
+        label: "A convenir por la tarde",
       },
       {
+        type: "flexible",
         day: "Viernes",
-        time: "A convenir por la tarde",
+        label: "A convenir por la tarde",
       },
       {
+        type: "scheduled",
         day: "Sábado",
-        time: "10:00 - 12:00",
+        start: {
+          hours: 10,
+          minutes: 0,
+        },
+        end: {
+          hours: 12,
+          minutes: 0,
+        },
       },
     ],
   },
@@ -66,22 +109,46 @@ const locations: Location[] = [
     mapUrl: "https://maps.app.goo.gl/YFif746urg8FEgaL7",
     schedule: [
       {
+        type: "scheduled",
         day: "Martes",
-        time: "14:00 - 16:00",
+        start: {
+          hours: 14,
+          minutes: 0,
+        },
+        end: {
+          hours: 16,
+          minutes: 0,
+        },
       },
       {
+        type: "scheduled",
         day: "Jueves",
-        time: "8:00 - 11:00",
+        start: {
+          hours: 8,
+          minutes: 0,
+        },
+        end: {
+          hours: 11,
+          minutes: 0,
+        },
       },
       {
+        type: "scheduled",
         day: "Sábado",
-        time: "13:00 - 15:00",
+        start: {
+          hours: 13,
+          minutes: 0,
+        },
+        end: {
+          hours: 15,
+          minutes: 0,
+        },
       },
     ],
   },
 ];
 
-const dayToIndex: Record<string, number> = {
+const dayToIndex: Record<WeekDay, number> = {
   Domingo: 0,
   Lunes: 1,
   Martes: 2,
@@ -111,21 +178,24 @@ function trackMapClick({
   });
 }
 
-function getStartTime(time: string) {
-  const [startTime] = time.split(" - ");
-  const [hours, minutes] = startTime.split(":").map(Number);
+function formatClockTime(time: ClassTime) {
+  const hours = String(time.hours).padStart(2, "0");
+  const minutes = String(time.minutes).padStart(2, "0");
 
-  return {
-    hours,
-    minutes,
-  };
+  return `${hours}:${minutes}`;
 }
 
-function getNextClassDate(day: string, time: string, now: Date) {
+function formatScheduleItem(item: ScheduleItem) {
+  if (item.type === "flexible") {
+    return item.label;
+  }
+
+  return `${formatClockTime(item.start)} - ${formatClockTime(item.end)}`;
+}
+
+function getNextClassDate(day: WeekDay, startTime: ClassTime, now: Date): Date {
   const targetDayIndex = dayToIndex[day];
   const currentDayIndex = now.getDay();
-
-  const { hours, minutes } = getStartTime(time);
 
   let daysUntilClass = targetDayIndex - currentDayIndex;
 
@@ -136,7 +206,7 @@ function getNextClassDate(day: string, time: string, now: Date) {
   const classDate = new Date(now);
 
   classDate.setDate(now.getDate() + daysUntilClass);
-  classDate.setHours(hours, minutes, 0, 0);
+  classDate.setHours(startTime.hours, startTime.minutes, 0, 0);
 
   if (classDate <= now) {
     classDate.setDate(classDate.getDate() + 7);
@@ -145,26 +215,41 @@ function getNextClassDate(day: string, time: string, now: Date) {
   return classDate;
 }
 
-function getUpcomingClass(locationsList: Location[], now: Date) {
-  const upcomingClasses: UpcomingClass[] = locationsList.flatMap((location) =>
-    location.schedule.map((item) => ({
-      locationId: location.id,
-      locationName: location.name,
-      area: location.area,
-      mapUrl: location.mapUrl,
-      day: item.day,
-      time: item.time,
-      startsAt: getNextClassDate(item.day, item.time, now),
-    })),
+function getUpcomingClass(
+  locationsList: TrainingLocation[],
+  now: Date,
+): UpcomingClass | null {
+  const upcomingClasses = locationsList.flatMap((location) =>
+    location.schedule.flatMap((item): UpcomingClass[] => {
+      if (item.type !== "scheduled") {
+        return [];
+      }
+
+      return [
+        {
+          locationId: location.id,
+          locationName: location.name,
+          area: location.area,
+          mapUrl: location.mapUrl,
+          day: item.day,
+          time: formatScheduleItem(item),
+          startsAt: getNextClassDate(item.day, item.start, now),
+        },
+      ];
+    }),
   );
 
-  return upcomingClasses.sort(
-    (a, b) => a.startsAt.getTime() - b.startsAt.getTime(),
-  )[0];
+  upcomingClasses.sort(
+    (firstClass, secondClass) =>
+      firstClass.startsAt.getTime() - secondClass.startsAt.getTime(),
+  );
+
+  return upcomingClasses[0] ?? null;
 }
 
 function formatTimeUntil(date: Date, now: Date) {
-  const diffInMinutes = Math.ceil((date.getTime() - now.getTime()) / 1000 / 60);
+  const diffInMilliseconds = date.getTime() - now.getTime();
+  const diffInMinutes = Math.ceil(diffInMilliseconds / 1000 / 60);
 
   if (diffInMinutes <= 0) {
     return "Ahora";
@@ -193,16 +278,45 @@ function NextClassCard() {
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
-    const interval = window.setInterval(() => {
+    const intervalId = window.setInterval(() => {
       setNow(new Date());
-    }, 60000);
+    }, 60_000);
 
-    return () => window.clearInterval(interval);
+    return () => {
+      window.clearInterval(intervalId);
+    };
   }, []);
 
   const nextClass = useMemo(() => {
     return getUpcomingClass(locations, now);
   }, [now]);
+
+  if (!nextClass) {
+    return (
+      <article className="schedule-section__next-card">
+        <div className="schedule-section__next-header">
+          <div className="schedule-section__next-icon-wrapper">
+            <Clock3
+              className="schedule-section__next-icon"
+              aria-hidden="true"
+            />
+          </div>
+
+          <p className="schedule-section__next-label">Próxima clase</p>
+        </div>
+
+        <div className="schedule-section__next-content">
+          <p className="schedule-section__next-time">
+            No hay clases programadas
+          </p>
+
+          <p className="schedule-section__next-schedule">
+            Consultanos para coordinar un horario.
+          </p>
+        </div>
+      </article>
+    );
+  }
 
   const timeUntil = formatTimeUntil(nextClass.startsAt, now);
 
@@ -267,7 +381,7 @@ export default function ScheduleSection() {
       <div className="schedule-section__container">
         <div className="schedule-section__header">
           <p className="schedule-section__eyebrow">
-            Cada clase tiene una duración de 2 horas
+            Elegí 2 horas de clase dentro de la franja horaria disponible
           </p>
 
           <h2 className="schedule-section__title">Ubicación y horarios</h2>
@@ -317,7 +431,9 @@ export default function ScheduleSection() {
                     >
                       <p className="schedule-section__day">{item.day}</p>
 
-                      <p className="schedule-section__time">{item.time}</p>
+                      <p className="schedule-section__time">
+                        {formatScheduleItem(item)}
+                      </p>
                     </div>
                   ))}
                 </div>

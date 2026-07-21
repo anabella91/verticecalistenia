@@ -2,6 +2,7 @@
 
 .instagram-feed {
   padding: clamp(4rem, 8vw, 7rem) 1rem;
+  background: var(--color-primary);
 }
 
 .instagram-feed__header {
@@ -17,7 +18,7 @@
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: -0.05em;
-  color: var(--color-primary);
+  color: var(--color-tertiary);
 }
 
 .instagram-feed__title {
@@ -38,7 +39,7 @@
 
 .instagram-feed__link {
   width: fit-content;
-  color: var(--color-quaternary);
+  color: var(--color-tertiary);
   font-size: 1.2rem;
   font-weight: 700;
   text-decoration: none;
