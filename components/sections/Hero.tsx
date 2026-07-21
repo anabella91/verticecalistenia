@@ -7,7 +7,8 @@ import Button from "@/components/ui/Button";
 import { trackMetaEvent } from "@/lib/metaPixel";
 
 const WHATSAPP_NUMBER = "5491141761329";
-const WHATSAPP_MESSAGE = "Hola, quiero reservar una clase de prueba gratis";
+const WHATSAPP_MESSAGE =
+  "Hola, quiero reservar una clase de prueba para entrenar calistenia";
 
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   WHATSAPP_MESSAGE,
@@ -17,7 +18,7 @@ export default function Hero() {
   const handleWhatsAppClick = () => {
     sendGAEvent("event", "click_whatsapp", {
       button_location: "hero",
-      button_text: "Reservar clase de prueba gratis",
+      button_text: "Reservar clase de prueba",
       destination: "whatsapp",
     });
 
@@ -60,7 +61,7 @@ export default function Hero() {
               className="hero__button"
               ariaLabel="Reservar una clase de prueba gratis por WhatsApp"
             >
-              Reservar clase de prueba gratis
+              Reservar clase de prueba
               <ArrowRight className="hero__button-icon" aria-hidden="true" />
             </Button>
           </div>

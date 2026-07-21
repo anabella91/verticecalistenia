@@ -9,7 +9,7 @@ import Image from "next/image";
 const WHATSAPP_NUMBER = "5491141761329";
 
 const WHATSAPP_MESSAGE =
-  "Hola, quiero reservar una clase de prueba gratis para entrenar calistenia";
+  "Hola, quiero reservar una clase de prueba para entrenar calistenia";
 
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   WHATSAPP_MESSAGE,
@@ -19,12 +19,12 @@ export default function Header() {
   const handleWhatsAppClick = () => {
     sendGAEvent("event", "click_whatsapp", {
       button_location: "header",
-      button_text: "Clase de prueba gratis",
+      button_text: "Clase de prueba",
       destination: "whatsapp",
     });
 
     trackMetaEvent("Contact", {
-      content_name: "Clase de prueba gratis",
+      content_name: "Clase de prueba",
       content_category: "whatsapp",
       button_location: "header",
     });
@@ -48,7 +48,7 @@ export default function Header() {
           target="_blank"
           onClick={handleWhatsAppClick}
         >
-          Clase de prueba gratis
+          Agendar clase de prueba
         </Button>
       </div>
     </header>

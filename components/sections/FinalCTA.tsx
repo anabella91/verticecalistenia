@@ -9,7 +9,8 @@ const INSTAGRAM_USERNAME = "verticecalistenia";
 const INSTAGRAM_URL = `https://www.instagram.com/${INSTAGRAM_USERNAME}/`;
 
 const WHATSAPP_NUMBER = "5491141761329";
-const WHATSAPP_MESSAGE = "Hola, quiero reservar una clase de prueba gratis";
+const WHATSAPP_MESSAGE =
+  "Hola, quiero reservar una clase de prueba para entrenar calistenia";
 
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
   WHATSAPP_MESSAGE,
@@ -45,7 +46,7 @@ export default function FinalCTA() {
     // Google Analytics
     sendGAEvent("event", "click_whatsapp", {
       button_location: "final_cta",
-      button_text: "Reservá clase de prueba gratis",
+      button_text: "Reservá clase de prueba",
       destination: "whatsapp",
     });
 
@@ -73,7 +74,7 @@ export default function FinalCTA() {
               className="final-cta__button"
               ariaLabel="Reservar una clase de prueba gratis por WhatsApp"
             >
-              Reservá clase de prueba gratis
+              Agendar clase de prueba
               <ArrowRight
                 className="final-cta__button-icon"
                 aria-hidden="true"
