@@ -62,9 +62,16 @@ const locations: TrainingLocation[] = [
     mapUrl: "https://maps.app.goo.gl/DXEcZV9RE3mtUmKe7",
     schedule: [
       {
-        type: "flexible",
+        type: "scheduled",
         day: "Lunes",
-        label: "A convenir por la tarde",
+        start: {
+          hours: 17,
+          minutes: 0,
+        },
+        end: {
+          hours: 19,
+          minutes: 0,
+        },
       },
       {
         type: "scheduled",
@@ -79,24 +86,38 @@ const locations: TrainingLocation[] = [
         },
       },
       {
-        type: "flexible",
+        type: "scheduled",
         day: "Miércoles",
-        label: "A convenir por la tarde",
+        start: {
+          hours: 17,
+          minutes: 0,
+        },
+        end: {
+          hours: 19,
+          minutes: 0,
+        },
       },
       {
-        type: "flexible",
+        type: "scheduled",
         day: "Viernes",
-        label: "A convenir por la tarde",
+        start: {
+          hours: 17,
+          minutes: 0,
+        },
+        end: {
+          hours: 19,
+          minutes: 0,
+        },
       },
       {
         type: "scheduled",
         day: "Sábado",
         start: {
-          hours: 10,
+          hours: 9,
           minutes: 0,
         },
         end: {
-          hours: 12,
+          hours: 11,
           minutes: 0,
         },
       },
@@ -109,6 +130,11 @@ const locations: TrainingLocation[] = [
     mapUrl: "https://maps.app.goo.gl/YFif746urg8FEgaL7",
     schedule: [
       {
+        type: "flexible",
+        day: "Lunes",
+        label: "A convenir por la mañana",
+      },
+      {
         type: "scheduled",
         day: "Martes",
         start: {
@@ -119,6 +145,11 @@ const locations: TrainingLocation[] = [
           hours: 16,
           minutes: 0,
         },
+      },
+      {
+        type: "flexible",
+        day: "Miércoles",
+        label: "A convenir por la mañana",
       },
       {
         type: "scheduled",
@@ -136,11 +167,11 @@ const locations: TrainingLocation[] = [
         type: "scheduled",
         day: "Sábado",
         start: {
-          hours: 13,
+          hours: 12,
           minutes: 0,
         },
         end: {
-          hours: 15,
+          hours: 14,
           minutes: 0,
         },
       },
